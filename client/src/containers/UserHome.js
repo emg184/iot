@@ -2,38 +2,53 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-import CreateRootCategory from '../components/CreateRootCategory'
+import CategoryCard from '../components/CategoryCard'
 
 class UserHome extends Component {
   constructor(props) {
     super(props);
-    //console.log(props)
     this.state = {
-      userId: 'awaiting user id'
+      userId: this.props.match.params.userId,
+      parentId: null,
+      categories: false
     };
+
+    this.updateCategoryCards = this.updateCategoryCards.bind(this);
   };
 
   componentDidMount() {
-    const { match: { params } } = this.props;
-    console.log(params.userId)
-    axios.get('/user', {headers: {
+    axios.get(`/categories/${this.state.userId}`, {headers: {
       "authorization" : localStorage.getItem('myData')
         }
       }
     )
     .then( res => {
-      this.setState({ userId: res.data[0].id })
+      this.setState({ categories: res.data });
     })
+  }
+
+  updateCategoryCards(event, parent) {
+    this.setState({ parentId: parent })
+    axios.get(`/categories/${this.state.userId}/${parent}`, {headers: {
+      "authorization" : localStorage.getItem('myData')
+        }
+      }
+    )
+    .then( res => {
+      this.setState({ categories: res.data });
+    })
+    event.preventDefault()
   }
 
   render() {
     return (
       <div>
         <h1>Helloworld</h1>
-        <h3>{ this.state.userId}</h3>
+        <h3>{ this.state.userId }</h3>
         <Link to='/category/1'>
           <button type="button">Create Category</button>
         </Link>
+        { this.state.categories ? this.state.categories.map( category => CategoryCard(category, this.updateCategoryCards)   ) : <h1>No Categories</h1> }
       </div>
     );
   };

@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 
-import Card from '../components/OrganizationCard';
+import CategoryCard from '../components/CategoryCard';
 
 export default class Organizations extends Component {
   render() {
     return (
       <div>
-        <Card />
+        <CategoryCard />
       </div>
     );
   };

@@ -34,10 +34,19 @@ function deleteCategory(name, image, parent_category, active=true, description, 
             .del()
 }
 
-function getCategories(user_id, parent_id) {
+function getRootCategories(user_id) {
   return Categories()
           .where({
-            'parent_id': null,
+            'parent_category': null,
+            'user_id': user_id
+          })
+}
+
+function getCategories(user_id, parent_id) {
+  console.log(user_id, parent_id)
+  return Categories()
+          .where({
+            'parent_category': parent_id,
             'user_id': user_id
           })
 }
@@ -46,5 +55,6 @@ module.exports = {
   createCategory,
   updateCategory,
   deleteCategory,
+  getRootCategories,
   getCategories
 }

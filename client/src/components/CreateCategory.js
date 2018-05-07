@@ -4,12 +4,13 @@ import axios from 'axios';
 class CreateRootCategory extends Component {
   constructor(props) {
     super(props);
-    console.log(this.props)
+    console.log(this.props.match.params)
     this.state = {
       categoryName: '',
       imageUrl: '',
       description: '',
-      userId: 2
+      userId: this.props.match.params.userId,
+      parent: this.props.match.params.categoryId
     };
 
     this.handleNameChange = this.handleNameChange.bind(this);
@@ -33,7 +34,7 @@ class CreateRootCategory extends Component {
 
   handleSubmit(event) {
     axios.post('/categories', { name: this.state.categoryName,
-image: this.state.imageUrl, parent: null, status: true, description: this.state.description,
+image: this.state.imageUrl, parent: this.state.parent, status: true, description: this.state.description,
 id: this.state.userId}, {headers: {
   "authorization" : localStorage.getItem('myData')
     }

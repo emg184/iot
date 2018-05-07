@@ -10,7 +10,15 @@ module.exports = app => {
           return res.status(200).json({ redirect: "/user", obj: result});
       })
   })
-  app.get('/categories', requireAuth, function(req, res, next) {
-    queries.getCategories( req.body.user_id, req.body.parent_id)
+  app.get('/categories/:userId', function(req, res, next) {
+    queries.getRootCategories(req.params.userId)
+      .then( result => res.status(200).json(result) )
+  })
+  app.get('/categories/:userId/:parentId', function(req, res, next) {
+    queries.getCategories(req.params.userId, req.params.parentId)
+      .then( result => {
+        console.log(result)
+        res.status(200).json(result)
+      })
   })
 }

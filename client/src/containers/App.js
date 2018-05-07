@@ -5,7 +5,7 @@ import Header from '../components/Header';
 import Login from '../components/Login';
 import Signup from '../components/Signup';
 import UserHome from './UserHome';
-import CreateRootCategory  from '../components/CreateRootCategory';
+import CreateCategory  from '../components/CreateCategory';
 
 import Home from './Home';
 import Organizations from './Organizations';
@@ -16,16 +16,17 @@ class App extends Component {
       <div className="App">
         <Header />
         <Router>
-        <Switch>
+
           <div>
             <Route exact path="/" component={Home} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
             <Route path="/organizations" component={Organizations} />
-            <Route path="/user/:userId" component={UserHome} />
-            <Route path="/category/:categoryId" component={CreateRootCategory} />
+            <Switch>
+              <Route exact path={`/user/:userId`} component={UserHome} />
+              <Route path={`/user/:userId/category/:categoryId`} component={CreateCategory} />
+            </Switch>
           </div>
-        </Switch>
         </Router>
       </div>
     );
