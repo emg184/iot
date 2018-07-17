@@ -1,17 +1,14 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Redirect } from 'react-router-dom';
 
-class CreateCategory extends Component {
+class CreateRootCategory extends Component {
   constructor(props) {
     super(props);
     console.log(this.props.match.params)
     this.state = {
       categoryName: '',
       imageUrl: '',
-      description: '',
-      parentId: this.props.match.params.categoryId,
-      redirect: false
+      description: ''
     };
 
     this.handleNameChange = this.handleNameChange.bind(this);
@@ -35,26 +32,16 @@ class CreateCategory extends Component {
 
   handleSubmit(event) {
     axios.post('/categories', { name: this.state.categoryName,
-image: this.state.imageUrl, parent: this.state.parentId, status: true, description: this.state.description,
+image: this.state.imageUrl, parent: null, status: true, description: this.state.description,
 }, {headers: {
   "authorization" : localStorage.getItem('myData')
     }
   })
-      .then((res) => {
-        if (res.status === 200) {
-          this.setState({ redirect: true })
-        }
-    })
+      .then((res) => console.log(res))
     event.preventDefault();
   }
 
   render() {
-    if (this.state.redirect) {
-      return <Redirect to={{
-        pathname: '/user',
-        state: { parentId: this.state.parentId }
-      }}/>
-    }
     return (
       <div className="row">
         <form className="col s12" onSubmit={this.handleSubmit}>
@@ -66,7 +53,7 @@ image: this.state.imageUrl, parent: this.state.parentId, status: true, descripti
           </div>
           <div className="row">
             <div className="input-field col s8">
-            <h3>Image URL:</h3>
+            <h3>Image URL</h3>
               <input id="image_url" type="text" className="validate" onChange={this.handleImageChange}/>
             </div>
           </div>
@@ -87,4 +74,4 @@ image: this.state.imageUrl, parent: this.state.parentId, status: true, descripti
 
 };
 
-export default CreateCategory;
+export default CreateRootCategory;

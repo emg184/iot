@@ -38,7 +38,10 @@ export default class Login extends Component {
 
   render() {
     if (this.state.redirect) {
-      return <Redirect to={`/user/${this.state.userId}`} />
+      return <Redirect to={{
+        pathname: '/user',
+        state: { parentId: 'root' }
+      }}/>
     }
 
     return (

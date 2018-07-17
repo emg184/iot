@@ -15,6 +15,9 @@ app.use(cors());
 
 require('./routes/auth')(app);
 require('./routes/categories')(app);
+require('./routes/boards')(app);
+require('./routes/tests')(app);
+require('./routes/boards_and_categories')(app);
 
 const port = process.env.PORT || 8081;
 const server = http.createServer(app);
